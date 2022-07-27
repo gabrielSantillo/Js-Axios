@@ -1,6 +1,6 @@
 /* this function display all the options the user has to chose between a range of courses */
 function displayActivity(details) {
-    /* inserting the option in the screen */
+  /* inserting the option in the screen */
   document.querySelector(`main`).insertAdjacentHTML(
     `beforeend`,
     `
@@ -25,31 +25,53 @@ function displayActivity(details) {
 
 /* this function simply insert in the page two options for the user to chose, free or paid courses */
 function addFreeOrPaidOptions(response) {
-    /* adding in the pages to buttons, free and paid options */
-    main.insertAdjacentHTML(`beforeend`, `
+  /* adding in the pages to buttons, free and paid options */
+  main.insertAdjacentHTML(
+    `beforeend`,
+    `
     <button id="free_button">Free Courses</button>
     <button id="paid_button">Paid Courses</button>
-    `);
+    `
+  );
 
-    /* getting the free button from the page */
-    let free_button = document.getElementById(`free_button`);
-    /* after being clicked, call the function freeEducationActivity */
-    free_button.addEventListener(`click`, freeEducationActivity);
+  /* getting the free button from the page */
+  let free_button = document.getElementById(`free_button`);
+  /* after being clicked, call the function freeEducationActivity */
+  free_button.addEventListener(`click`, freeEducationActivity);
+
+  /* getting the free button from the page */
+  let paid_button = document.getElementById(`paid_button`);
+  /* after being clicked, call the function freeEducationActivity */
+  paid_button.addEventListener(`click`, freeEducationActivity);
 }
 
 /* this function is called when the success occurs when requesting information form the API */
 function post_success(response) {
+  if (response[`data`][`price`] === 0) {
     /* inserting onto the page informatio about the course */
-  main.insertAdjacentHTML(
-    `beforeend`,
-    /* inserting the type of course, description and link*/
-    `
+    main.insertAdjacentHTML(
+      `beforeend`,
+      /* inserting the type of course, description and link*/
+      `
     <h3>${response[`data`][`type`]}</h3>
     <p>${response[`data`][`activity`]}</p>
     <a href=${response[`data`][`link`]}>Link to the course</a>
+    <p>$ ${response[`data`][`price`]}</p>
         `
-  );
-
+    );
+  } else {
+    /* inserting onto the page informatio about the course */
+    main.insertAdjacentHTML(
+      `beforeend`,
+      /* inserting the type of course, description and link*/
+      `
+      <h3>${response[`data`][`type`]}</h3>
+      <p>${response[`data`][`activity`]}</p>
+      <a href=${response[`data`][`link`]}>Link to the course</a>
+      <p>$ ${response[`data`][`price`]}</p>
+          `
+    );
+  }
 }
 
 /* when the request function fail, an error message is printed */
@@ -66,12 +88,8 @@ function post_failure(error) {
 function freeEducationActivity(details) {
   axios
     .request({
-        /* getting from the API, only options from the education category */
-      url: `http://www.boredapi.com/api/activity?type=education`,
-      /* adding a param to only get free option */
-      params: {
-        price: 0
-      }
+      /* getting from the API, only options from the education category */
+      url: `http://www.boredapi.com/api/activity?type=education`
     })
     /* if the request is successful, call the function post_success */
     .then(post_success)
