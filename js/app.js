@@ -21,12 +21,12 @@ function displayActivity(details) {
   /* getting the first button ny its IS */
   let education_button = document.getElementById(`education_button`);
   /* after the button being clicked, call the function addFreeOrPaidOptions */
-  education_button.addEventListener(`click`, addFreeOrPaidOptions);
+  education_button.addEventListener(`click`, educationOptions);
 
   /* getting the first button ny its IS */
   let recreational_button = document.getElementById(`recreational_button`);
   /* after the button being clicked, call the function addFreeOrPaidOptions */
-  recreational_button.addEventListener(`click`, addFreeOrPaidOptions);
+  recreational_button.addEventListener(`click`, recreationalOptions);
 
   /* getting the first button ny its IS */
   let social_button = document.getElementById(`social_button`);
@@ -35,7 +35,29 @@ function displayActivity(details) {
 }
 
 /* this function simply insert in the page two options for the user to chose, free or paid courses */
-function addFreeOrPaidOptions(response) {
+function educationOptions(response) {
+  /* adding in the pages to buttons, free and paid options */
+  let free_paid_buttons = document.getElementById(`free-paid-buttons`);
+  free_paid_buttons.insertAdjacentHTML(
+    `afterbegin`,
+    `
+    <button id="free_button">Free Courses</button>
+    <button id="paid_button">Paid Courses</button>
+    `
+  );
+
+  /* getting the free button from the page */
+  let free_button = document.getElementById(`free_button`);
+  /* after being clicked, call the function freeEducationActivity */
+  free_button.addEventListener(`click`, freeEducationActivity);
+
+  /* getting the free button from the page */
+  let paid_button = document.getElementById(`paid_button`);
+  /* after being clicked, call the function freeEducationActivity */
+  paid_button.addEventListener(`click`, paidEducationActivity);
+}
+
+function recreationalOptions(response) {
   /* adding in the pages to buttons, free and paid options */
   let free_paid_buttons = document.getElementById(`free-paid-buttons`);
   free_paid_buttons.insertAdjacentHTML(
