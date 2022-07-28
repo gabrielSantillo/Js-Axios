@@ -22,6 +22,7 @@ function displayActivity(details) {
   let education_button = document.getElementById(`education_button`);
   /* after the button being clicked, call the function addFreeOrPaidOptions */
   education_button.addEventListener(`click`, addFreeOrPaidOptions);
+  /* */
 }
 
 /* this function simply insert in the page two options for the user to chose, free or paid courses */
@@ -44,13 +45,31 @@ function addFreeOrPaidOptions(response) {
   /* getting the free button from the page */
   let paid_button = document.getElementById(`paid_button`);
   /* after being clicked, call the function freeEducationActivity */
-  paid_button.addEventListener(`click`, freeEducationActivity);
+  paid_button.addEventListener(`click`, paidEducationActivity);
 }
 
 /* this function is called when the success occurs when requesting information form the API */
 function post_success(response) {
   /* inserting onto the page informatio about the course */
   let free_section = document.getElementById(`free-option`);
+  free_section.insertAdjacentHTML(
+    `beforeend`,
+    /* inserting the type of course, description and link*/
+    `
+    <div>
+      <h3>${response[`data`][`type`]}</h3>
+      <p>${response[`data`][`activity`]}</p>
+      <a href=${response[`data`][`link`]}>Link to the course</a>
+      <p>$ ${response[`data`][`price`]}</p>
+    </div>
+        `
+  );
+}
+
+/* this function is called when the success occurs when requesting information form the API */
+function post_success_paid(response) {
+  /* inserting onto the page informatio about the course */
+  let free_section = document.getElementById(`paid-option`);
   free_section.insertAdjacentHTML(
     `beforeend`,
     /* inserting the type of course, description and link*/
@@ -87,6 +106,22 @@ function freeEducationActivity(details) {
     })
     /* if the request is successful, call the function post_success */
     .then(post_success)
+    /* if the request fail, call the function post_failure */
+    .catch(post_failure);
+}
+
+/* this function make a request to the api by type and price */
+function paidEducationActivity(details) {
+  axios
+    .request({
+      /* getting from the API, only options from the education category */
+      url: `http://www.boredapi.com/api/activity?minprice=0.01&maxprice=1`,
+      params: {
+        type: `education`,
+      },
+    })
+    /* if the request is successful, call the function post_success */
+    .then(post_success_paid)
     /* if the request fail, call the function post_failure */
     .catch(post_failure);
 }
