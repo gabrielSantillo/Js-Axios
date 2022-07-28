@@ -22,7 +22,16 @@ function displayActivity(details) {
   let education_button = document.getElementById(`education_button`);
   /* after the button being clicked, call the function addFreeOrPaidOptions */
   education_button.addEventListener(`click`, addFreeOrPaidOptions);
-  /* */
+
+  /* getting the first button ny its IS */
+  let recreational_button = document.getElementById(`recreational_button`);
+  /* after the button being clicked, call the function addFreeOrPaidOptions */
+  recreational_button.addEventListener(`click`, addFreeOrPaidOptions);
+
+  /* getting the first button ny its IS */
+  let social_button = document.getElementById(`social_button`);
+  /* after the button being clicked, call the function addFreeOrPaidOptions */
+  social_button.addEventListener(`click`, addFreeOrPaidOptions);
 }
 
 /* this function simply insert in the page two options for the user to chose, free or paid courses */
@@ -40,12 +49,12 @@ function addFreeOrPaidOptions(response) {
   /* getting the free button from the page */
   let free_button = document.getElementById(`free_button`);
   /* after being clicked, call the function freeEducationActivity */
-  free_button.addEventListener(`click`, freeEducationActivity);
+  free_button.addEventListener(`click`, freeRecreationalActivity);
 
   /* getting the free button from the page */
   let paid_button = document.getElementById(`paid_button`);
   /* after being clicked, call the function freeEducationActivity */
-  paid_button.addEventListener(`click`, paidEducationActivity);
+  paid_button.addEventListener(`click`, paidRecrationalActivity);
 }
 
 /* this function is called when the success occurs when requesting information form the API */
@@ -118,6 +127,38 @@ function paidEducationActivity(details) {
       url: `http://www.boredapi.com/api/activity?minprice=0.01&maxprice=1`,
       params: {
         type: `education`,
+      },
+    })
+    /* if the request is successful, call the function post_success */
+    .then(post_success_paid)
+    /* if the request fail, call the function post_failure */
+    .catch(post_failure);
+}
+
+/* this function make a request to the api by type and price */
+function freeRecreationalActivity(details) {
+  axios
+    .request({
+      /* getting from the API, only options from the education category */
+      url: `http://www.boredapi.com/api/activity?type=recreational`,
+      params: {
+        price: 0,
+      },
+    })
+    /* if the request is successful, call the function post_success */
+    .then(post_success)
+    /* if the request fail, call the function post_failure */
+    .catch(post_failure);
+}
+
+/* this function make a request to the api by type and price */
+function paidRecrationalActivity(details) {
+  axios
+    .request({
+      /* getting from the API, only options from the education category */
+      url: `http://www.boredapi.com/api/activity?minprice=0.01&maxprice=1`,
+      params: {
+        type: `recreational`,
       },
     })
     /* if the request is successful, call the function post_success */
