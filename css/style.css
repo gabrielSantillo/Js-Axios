@@ -1,0 +1,11 @@
+#free-paid-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+}
+#free-paid-options > section > div {
+  border: 1px solid black;
+  margin: 5%;
+  text-align: center;
+}/*# sourceMappingURL=style.css.map */
